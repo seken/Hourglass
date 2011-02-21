@@ -1,0 +1,16 @@
+*.o
+depcomp
+.deps
+*.swp
+*.log
+*.status
+configure
+Makefile
+Makefile.in
+hourglass
+install-sh
+missing
+src/config.h*
+src/stamp-h1
+aclocal.m4
+autom4te.cache
