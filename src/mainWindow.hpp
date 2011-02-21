@@ -17,7 +17,7 @@ class mainWindow : public Gtk::Window {
 		Gtk::VBox m_topBox;
 		Gtk::Label m_time;
 		Gtk::Label m_date;
-		Gtk::Button m_two;
+		Gtk::Button m_homeButton;
 
 		// on_second connection
 		sigc::connection m_timer;

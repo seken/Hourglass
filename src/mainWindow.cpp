@@ -10,7 +10,7 @@ mainWindow::mainWindow(int &argc, char **argv) : Gtk::Window(),
 		m_fullscreen(false),
 		m_time("00:00 am"),
 		m_date("Monday, 21 Febuary 2011"),
-		m_two("two") {
+		m_homeButton("Menu") {
 	// Command line parser
 	Glib::OptionContext prgOpt;
 	prgOpt.set_help_enabled();
@@ -31,7 +31,7 @@ mainWindow::mainWindow(int &argc, char **argv) : Gtk::Window(),
 		fullscreen();
 	}
 
-	set_border_width(5);
+	set_border_width(8);
 
 	m_timer = Glib::signal_timeout().connect(sigc::mem_fun(*this, &mainWindow::on_second), 1000);
 
@@ -40,10 +40,9 @@ mainWindow::mainWindow(int &argc, char **argv) : Gtk::Window(),
 	m_date.set_alignment(1.0, 0.5);
 	m_topBox.pack_start(m_date, Gtk::PACK_SHRINK);
 	m_topBox.pack_start(m_time);
+	m_homeButton.set_size_request(-1, 50);
+	m_topBox.pack_start(m_homeButton, Gtk::PACK_SHRINK);
 
-	m_topBox.pack_start(m_two);
-
-	m_two.show();
 	m_topBox.show_all();
 	on_second();
 }
