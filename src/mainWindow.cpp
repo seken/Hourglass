@@ -5,6 +5,11 @@
 #include <sigc++/bind.h>
 #include <iostream>
 #include <time.h>
+#include <config.h>
+
+#ifdef JOGGLER
+#include "joggler.hpp"
+#endif //JOGGLER
 
 mainWindow::mainWindow(int &argc, char **argv) : Gtk::Window(),
 		m_fullscreen(false),
@@ -17,12 +22,23 @@ mainWindow::mainWindow(int &argc, char **argv) : Gtk::Window(),
 	prgOpt.set_ignore_unknown_options(true);
 	prgOpt.set_description("A Gtk based alarm clock");
 
+	// Config file (xml)
+	std::string configFile = "~/.hourglass/config.xml";
+
 	// Main Options
 	Glib::OptionGroup mGrp("", "");
+
 	Glib::OptionEntry fOpt;
 	fOpt.set_long_name("fullscreen");
 	fOpt.set_short_name('f');
 	mGrp.add_entry(fOpt, m_fullscreen);
+
+	Glib::OptionEntry cOpt;
+	cOpt.set_long_name("config");
+	cOpt.set_short_name('c');
+	cOpt.set_arg_description(configFile);
+	mGrp.add_entry_filename(cOpt, configFile);
+
 	prgOpt.set_main_group(mGrp);
 
 	prgOpt.parse(argc, argv);
@@ -30,6 +46,10 @@ mainWindow::mainWindow(int &argc, char **argv) : Gtk::Window(),
 	if (m_fullscreen) {
 		fullscreen();
 	}
+
+	#ifdef JOGGLER
+	m_tasks.push_back(new jogglerTask(&m_config));
+	#endif //JOGGLER
 
 	set_border_width(8);
 
@@ -68,6 +88,11 @@ bool mainWindow::on_second() {
 
 	if (strftime(buf, 511, "%A %d %B, %Y", lt) != 0) {
 		m_date.set_text(buf);
+	}
+
+	std::vector<task*>::iterator iter = m_tasks.begin();
+	for (; iter != m_tasks.end(); ++iter) {
+		(*iter)->run();
 	}
 
 	return true;

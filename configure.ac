@@ -16,6 +16,16 @@ AC_HEADER_STDC
 
 AC_LANG_CPLUSPLUS
 
+AC_ARG_ENABLE(joggler, AS_HELP_STRING(--enable-joggler, [Tailor towards the joggler platform]), [
+	if test "$enableval" = yes; then
+		AC_DEFINE([JOGGLER], [1], [Build in the light sensor, etc., support])
+	fi])
+
+AC_ARG_ENABLE(shellfm, AS_HELP_STRING(--enable-shellfm, [Compile in shell-fm support]), [
+	if test "$enableval" = yes; then
+		AC_DEFINE([SHELLFM], [1], [Something, something, shell-fm])
+	fi])
+
 AC_CHECK_LIB(stdc++, main,,AC_MSG_ERROR(Hourglass requires libstdc++))
 AC_CHECK_HEADERS(vector,,AC_MSG_ERROR(Hourglass requires vector))
 AC_CHECK_HEADERS(string,,AC_MSG_ERROR(Hourglass requires string))

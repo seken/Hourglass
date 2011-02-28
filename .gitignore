@@ -1,4 +1,5 @@
 *.o
+alarm
 depcomp
 .deps
 *.swp
